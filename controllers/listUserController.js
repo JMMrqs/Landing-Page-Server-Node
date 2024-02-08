@@ -1,6 +1,6 @@
-import { User } from '../src/db/sequelize.js';
+import { User } from '../models/user.js';
 
-export default async (req, res) => {
+export async function listUserController(_, res) {
     const users = await User.findAll();
     return res.json(users);
-};
+}

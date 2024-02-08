@@ -1,12 +1,24 @@
-import { Sequelize, DataTypes } from 'sequelize';
-import { sequelize } from '../db/sequelize.js';
+import { Sequelize } from 'sequelize';
+import { sequelize } from '../src/db/sequelize.js';
 
-export const User = sequelize.define('Otheruser', {
-    name: {
-        type: DataTypes.STRING,
+export const User = sequelize.define('User', {
+    firstName: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
-    lastname: {
-        type: DataTypes.STRING,
+    lastName: {
+        type: Sequelize.STRING,
     },
 });
+
+// Mock user insertion
+// try {
+//     await sequelize.sync();
+//     const john = await User.create({
+//         firstName: 'John',
+//         lastName: 'Doe',
+//     });
+//     console.log(john.toJSON());
+// } catch (err) {
+//     console.error('Unable to connect to the database:', err);
+// }

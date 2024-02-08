@@ -6,8 +6,9 @@ import { portfolioData } from './data/portfolio.js';
 import { bannerText } from './data/banner.js';
 import { servicesData } from './data/services.js';
 import { contactData } from './data/contact.js';
-import listUserController from './controllers/listUserController.js';
-import deleteUserController from './controllers/deleteUserController.js';
+import { listUserController } from './controllers/listUserController.js';
+import { deleteUserController } from './controllers/deleteUserController.js';
+import { insertContactController } from './controllers/insertContactController.js';
 
 const app = express();
 
@@ -30,10 +31,7 @@ app.get('/api/services/', (_, res) => res.json(servicesData));
 
 app.get('/api/contact/', (_, res) => res.json(contactData));
 
-app.post('/api/contact/', (req, res) => {
-    console.log(req.body);
-    return res.json('Retorno dos Dados(Post)');
-});
+app.post('/api/contact/', insertContactController);
 
 app.listen('4000', () => {
     console.log('Servidor está funcionando...');
