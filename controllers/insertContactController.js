@@ -13,17 +13,20 @@
 import { connection } from '../src/db/mysql-connect.js';
 export async function insertContactController(req, res) {
     const contactInfo = req.body;
-    connection.query(
-        'INSERT INTO contacts(name, email, phone, subject, text) VALUES(?, ?, ?, ?, ?)',
-        [
-            contactInfo.name,
-            contactInfo.email,
-            contactInfo.phone,
-            contactInfo.subject,
-            contactInfo.text,
-        ],
-    );
-    return res.json({
-        message: 'DB query started, but no current verifier for successful operation.',
-    });
+    let feedback;
+    try {
+        [feedback] = await connection.execute(
+            'INSERT INTO contacts(name, email, phone, subject, text) VALUES(?, ?, ?, ?, ?)',
+            [
+                contactInfo.name,
+                contactInfo.email,
+                contactInfo.phone,
+                contactInfo.subject,
+                contactInfo.text,
+            ],
+        );
+    } catch (err) {
+        return res.status(500).json({ message: 'Unable to process request due to server error.' });
+    }
+    return res.json(feedback);
 }

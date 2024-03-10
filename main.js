@@ -1,4 +1,6 @@
 import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
 import { aboutData } from './data/about.js';
 import { skillsData } from './data/skills.js';
 import { portfolioData } from './data/portfolio.js';
@@ -9,6 +11,8 @@ import { connection } from './src/db/mysql-connect.js';
 import { insertContactController } from './controllers/insertContactController.js';
 
 const app = express();
+app.use(cors());
+app.use(morgan('dev'));
 
 app.use(express.json()); //Configurar para aceitar/ler dados json
 
@@ -34,8 +38,8 @@ const [testQuery] = await connection.query('SELECT * FROM programming_languages;
 console.log(testQuery);
 
 app.get('/', async (_, res) => {
-    const [query] = await connection.query('SELECT * FROM programming_languages;');
-    return res.json(query);
+    const [query] = await connection.query('SELECT * FROM contacts;');
+    return res.status(200).json(query);
 });
 
-app.post('api/contact', insertContactController); // Call function for post handling
+app.post('/api/contact/', insertContactController); // Call function for post handling
